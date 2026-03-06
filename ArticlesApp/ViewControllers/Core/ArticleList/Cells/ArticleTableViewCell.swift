@@ -57,7 +57,7 @@ final class ArticleTableViewCell: UITableViewCell {
         // so it always matches the rendered cardView frame
         cardView.layer.shadowPath = UIBezierPath(
             roundedRect: cardView.bounds,
-            cornerRadius: 16
+            cornerRadius: AppConstants.UI.cardCornerRadius
         ).cgPath
     }
 
@@ -81,13 +81,13 @@ final class ArticleTableViewCell: UITableViewCell {
         backgroundColor             = .clear
         contentView.backgroundColor = .clear
 
-        cardView.layer.cornerRadius  = 16
+        cardView.layer.cornerRadius  = AppConstants.UI.cardCornerRadius
         cardView.layer.masksToBounds = false   // must be false to show shadow
 
         cardView.layer.shadowColor   = UIColor.black.cgColor
-        cardView.layer.shadowOpacity = 0.10
-        cardView.layer.shadowOffset  = CGSize(width: 0, height: 4)
-        cardView.layer.shadowRadius  = 10
+        cardView.layer.shadowOpacity = AppConstants.UI.shadowOpacity
+        cardView.layer.shadowOffset  = CGSize(width: 0, height: AppConstants.UI.shadowOffsetY)
+        cardView.layer.shadowRadius  = AppConstants.UI.shadowRadius
     }
 
     // MARK: - Image Style
@@ -97,7 +97,7 @@ final class ArticleTableViewCell: UITableViewCell {
         articleImageView.clipsToBounds = true
 
         // Clip only the top two corners to follow the card's shape
-        articleImageView.layer.cornerRadius  = 16
+        articleImageView.layer.cornerRadius  = AppConstants.UI.imageCornerRadius
         articleImageView.layer.maskedCorners = [
             .layerMinXMinYCorner,   // top-left
             .layerMaxXMinYCorner    // top-right
@@ -151,30 +151,6 @@ final class ArticleTableViewCell: UITableViewCell {
     // MARK: - Read More Button Style
 
     private func applyReadMoreStyle() {
-        let teal = UIColor(red: 0.10, green: 0.45, blue: 0.45, alpha: 1.0)
-
-        readMoreButton.backgroundColor    = teal
-        readMoreButton.layer.cornerRadius = 8
-        readMoreButton.clipsToBounds      = true
-
-        readMoreButton.isUserInteractionEnabled = true
-
-        var config = UIButton.Configuration.plain()
-        config.title          = "Read More"
-        config.image          = UIImage(
-            systemName: "arrow.right",
-            withConfiguration: UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
-        )
-        config.imagePlacement  = .trailing
-        config.imagePadding    = 8
-        config.contentInsets   = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 14)
-        config.baseForegroundColor = .white
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attr in
-            var updated = attr
-            updated.font = UIFont.boldSystemFont(ofSize: 14)
-            return updated
-        }
-        readMoreButton.configuration = config
 
         readMoreButton.addTarget(self, action: #selector(readMoreTapped), for: .touchUpInside)
     }

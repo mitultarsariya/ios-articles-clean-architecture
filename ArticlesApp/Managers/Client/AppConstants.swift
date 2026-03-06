@@ -8,15 +8,14 @@
 import UIKit
 
 enum AppConstants {
-
+    
     enum UI {
-        static let cornerRadius:     CGFloat = 12.0
-        static let cardCornerRadius: CGFloat = 16.0
-        static let defaultPadding:   CGFloat = 16.0
-        static let smallPadding:     CGFloat = 8.0
-        static let largePadding:     CGFloat = 24.0
-        static let cellImageHeight:  CGFloat = 200.0
-        static let detailImageHeight: CGFloat = 250.0
+        static let cardCornerRadius:   CGFloat = 12.0
+        static let imageCornerRadius:  CGFloat = 8.0
+        static let buttonCornerRadius: CGFloat = 8.0
+        static let shadowRadius:       CGFloat = 6.0
+        static let shadowOpacity:      Float   = 0.10
+        static let shadowOffsetY:      CGFloat = 3.0
     }
 
     enum Fonts {
