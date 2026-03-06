@@ -28,8 +28,12 @@ enum AppConstants {
     }
 
     enum Cache {
+        /// Key used to read/write the ArticleResponse in CacheManager
         static let articlesCacheKey = "com.articlesapp.cache.articles"
-        static let expiryDuration: TimeInterval = 3_600   // 1 hour
+
+        /// Cache expiry: 1 hour. Stale data is served offline after expiry
+        /// but the network will refresh it once connectivity is restored.
+        static let expiryDuration: TimeInterval = 3_600
     }
 
     enum Storyboard {

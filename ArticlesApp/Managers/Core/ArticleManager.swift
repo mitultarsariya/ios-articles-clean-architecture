@@ -9,8 +9,16 @@ import Foundation
 
 // MARK: - Protocol
 protocol ArticleManagerProtocol {
-    func getArticles(forceRefresh: Bool,
-                     completion: @escaping (Result<[Article], NetworkError>) -> Void)
+    func getArticles(
+        forceRefresh: Bool,
+        completion: @escaping (Result<[Article], NetworkError>) -> Void
+    )
+}
+
+// MARK: - CacheSource — lets ViewController know where data came from
+enum ArticleDataSource {
+    case network
+    case cache
 }
 
 // MARK: - Implementation
@@ -32,56 +40,76 @@ final class ArticleManager: ArticleManagerProtocol {
     }
 
     // MARK: - Public
+
     func getArticles(
         forceRefresh: Bool = false,
         completion: @escaping (Result<[Article], NetworkError>) -> Void
     ) {
-        // ── Offline path ──────────────────────────────────────
+        // ── OFFLINE PATH ───────────────────────────────────────────
         guard reachability.isConnected else {
-            log.warning("Offline → attempting cache fallback")
-            if let cached: ArticleResponse = cache.load(forKey: AppConstants.Cache.articlesCacheKey) {
-                completion(.success(filtered(cached.articles)))
-            } else {
-                completion(.failure(.noInternetConnection))
+            log.warning("📵 Device offline — attempting cache fallback")
+            serveCacheOrFail(completion: completion)
+            return
+        }
+
+        // ── CACHE-FIRST PATH (not a force refresh) ─────────────────
+        if !forceRefresh {
+            if let cached: ArticleResponse = cache.load(
+                forKey: AppConstants.Cache.articlesCacheKey
+            ) {
+                let articles = filter(cached.articles)
+                log.debug("⚡️ Serving \(articles.count) articles from cache (cache-first)")
+                completion(.success(articles))
+                return
             }
-            return
         }
 
-        // ── Cache-first (when not forcing refresh) ────────────
-        if !forceRefresh,
-           let cached: ArticleResponse = cache.load(forKey: AppConstants.Cache.articlesCacheKey) {
-            log.debug("Returning cache-first articles")
-            completion(.success(filtered(cached.articles)))
-            return
-        }
-
-        // ── Network path ──────────────────────────────────────
-        log.info("Fetching articles from network…")
+        // ── NETWORK PATH ───────────────────────────────────────────
+        log.info("🌐 Fetching articles from network (forceRefresh: \(forceRefresh))")
         provider.fetchArticles { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let response):
+                // Persist to cache immediately after successful fetch
                 self.cache.save(response, forKey: AppConstants.Cache.articlesCacheKey)
-                let articles = self.filtered(response.articles)
-                self.log.info("Fetched \(articles.count) valid articles")
+                let articles = self.filter(response.articles)
+                self.log.info("✅ Network fetch success — \(articles.count) valid articles cached")
                 completion(.success(articles))
 
-            case .failure(let error):
-                self.log.error("Network fetch failed: \(error.errorDescription ?? "?")")
-                // Graceful degradation → serve stale cache on error
-                if let stale: ArticleResponse = self.cache.load(forKey: AppConstants.Cache.articlesCacheKey) {
-                    self.log.warning("Serving stale cache after network failure")
-                    completion(.success(self.filtered(stale.articles)))
-                } else {
-                    completion(.failure(error))
-                }
+            case .failure(let networkError):
+                self.log.error("❌ Network fetch failed: \(networkError.errorDescription ?? "unknown")")
+                // Graceful degradation — serve stale cache on network error
+                self.serveCacheOrFail(
+                    overrideError: networkError,
+                    completion: completion
+                )
             }
         }
     }
 
     // MARK: - Private
-    private func filtered(_ articles: [Article]) -> [Article] {
+
+    /// Attempts to serve from cache; calls completion with .failure if cache is also empty.
+    private func serveCacheOrFail(
+        overrideError: NetworkError? = nil,
+        completion: @escaping (Result<[Article], NetworkError>) -> Void
+    ) {
+        if let cached: ArticleResponse = cache.load(
+            forKey: AppConstants.Cache.articlesCacheKey
+        ) {
+            let articles = filter(cached.articles)
+            log.warning("📦 Serving \(articles.count) articles from stale cache")
+            completion(.success(articles))
+        } else {
+            // No cache at all — surface the most relevant error
+            let error = overrideError ?? .noInternetConnection
+            log.error("🚫 No cache available. Surfacing error: \(error.errorDescription ?? "")")
+            completion(.failure(error))
+        }
+    }
+
+    /// Removes tombstoned/removed articles from the API feed.
+    private func filter(_ articles: [Article]) -> [Article] {
         articles.filter(\.isValid)
     }
 }
-

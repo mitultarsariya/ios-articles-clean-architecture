@@ -105,31 +105,58 @@ final class ArticleListViewController: UIViewController {
     private func observeReachability() {
         reachability.onConnectionChanged = { [weak self] isConnected in
             guard let self else { return }
-            if isConnected {
-                self.log.info("↑ Connection restored — refreshing")
-                self.loadArticles(forceRefresh: true)
-            } else {
-                ToastManager.showOffline(in: self)
+            DispatchQueue.main.async {
+                if isConnected {
+                    self.log.info("↑ Connection restored — refreshing")
+                    // Silent refresh — don't show loading spinner, just update
+                    self.loadArticles(forceRefresh: true)
+                } else {
+                    // Show offline toast every time connection is lost
+                    ToastManager.showOffline(in: self)
+                    self.log.warning("↓ Device went offline")
+                }
             }
         }
     }
 
     // MARK: - Data
     private func loadArticles(forceRefresh: Bool = false) {
-        if !forceRefresh { viewState = .loading }
-        if !reachability.isConnected { ToastManager.showOffline(in: self) }
+        // Only show full loading spinner on first load (not pull-to-refresh)
+        if !forceRefresh && articles.isEmpty {
+            viewState = .loading
+        }
+
+        // Inform user they are offline BEFORE attempting fetch
+        if !reachability.isConnected {
+            ToastManager.showOffline(in: self)
+            log.warning("loadArticles called while offline — will serve cache if available")
+        }
 
         articleManager.getArticles(forceRefresh: forceRefresh) { [weak self] result in
             guard let self else { return }
             DispatchQueue.main.async {
+                // Always stop refresh control regardless of outcome
                 self.refreshControl.endRefreshing()
+
                 switch result {
                 case .success(let items):
                     self.articles = items
                     self.viewState = items.isEmpty ? .empty : .success(items)
                     self.prefetch(items)
-                case .failure(let err):
-                    self.viewState = .error(err.errorDescription ?? "An error occurred.")
+                    self.log.info("UI updated with \(items.count) articles")
+
+                case .failure(let error):
+                    // Only switch to error state if we have nothing to show
+                    if self.articles.isEmpty {
+                        self.viewState = .error(error.errorDescription ?? "An error occurred.")
+                    } else {
+                        // Now already have data on screen — just show a toast
+                        ToastManager.showError(
+                            error.errorDescription ?? "Failed to refresh.",
+                            in: self
+                        )
+                    }
+                    self.log.error("getArticles failed: \(error.errorDescription ?? "")")
                 }
             }
         }
@@ -142,30 +169,37 @@ final class ArticleListViewController: UIViewController {
 
     // MARK: - View State Rendering
     private func applyState(_ state: ArticleListViewState) {
+        // Hide all overlays first
         let overlays: [UIView] = [loadingView, emptyView, retryView]
         overlays.forEach { $0.isHidden = true }
-        
         tableView.isHidden = false
-        
+
         switch state {
         case .idle:
+            // Initial untouched state — nothing to render
             break
-            
+
         case .loading:
-            tableView.isHidden    = true
-            loadingView.isHidden  = false
-            
-        case .success:
-            tableView.reloadData()
-            
-        case .empty:
             tableView.isHidden   = true
-            emptyView.isHidden   = false
-            
-        case .error(let msg):
+            loadingView.isHidden = false
+
+        case .success(let items):
+            // items already stored in self.articles — just reload
+            _ = items  // suppress unused warning; data is in self.articles
+            tableView.reloadData()
+
+        case .empty:
             tableView.isHidden  = true
-            retryView.isHidden  = false
-            retryView.configure(message: msg)
+            emptyView.isHidden  = false
+
+        case .error(let message):
+            // Only show retry screen when articles array is empty
+            // (if articles exist, we keep the list and show a toast instead)
+            if articles.isEmpty {
+                tableView.isHidden  = true
+                retryView.isHidden  = false
+                retryView.configure(message: message)
+            }
         }
     }
 

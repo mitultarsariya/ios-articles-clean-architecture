@@ -90,6 +90,7 @@ final class AppDIContainer {
 
         container.register(ArticleDetailViewController.self) { r in
             let sb = UIStoryboard(name: AppConstants.Storyboard.main, bundle: nil)
+            // swiftlint:disable:next force_cast
             let vc = sb.instantiateViewController(
                 withIdentifier: AppConstants.Storyboard.articleDetailVC
             ) as! ArticleDetailViewController
