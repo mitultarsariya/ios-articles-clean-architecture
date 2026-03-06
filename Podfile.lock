@@ -1,0 +1,61 @@
+PODS:
+  - Alamofire (5.11.1)
+  - AlamofireNetworkActivityIndicator (3.1.0):
+    - Alamofire (~> 5.1)
+  - Cache (6.0.0)
+  - FTLinearActivityIndicator (1.8)
+  - Kingfisher (8.8.0)
+  - KMNavigationBarTransition (1.1.11)
+  - Loaf (0.7.0)
+  - ObjcExceptionBridging (7.1.5):
+    - ObjcExceptionBridging/ObjcExceptionBridging (= 7.1.5)
+  - ObjcExceptionBridging/ObjcExceptionBridging (7.1.5)
+  - ReachabilitySwift (5.2.4)
+  - Swinject (2.9.1)
+  - XCGLogger (7.1.5):
+    - XCGLogger/Core (= 7.1.5)
+  - XCGLogger/Core (7.1.5):
+    - ObjcExceptionBridging
+
+DEPENDENCIES:
+  - Alamofire (~> 5.9)
+  - AlamofireNetworkActivityIndicator (~> 3.1)
+  - Cache (~> 6.0)
+  - FTLinearActivityIndicator (~> 1.3)
+  - Kingfisher (~> 8.1)
+  - KMNavigationBarTransition (~> 1.1)
+  - Loaf (~> 0.6)
+  - ReachabilitySwift (~> 5.2)
+  - Swinject (~> 2.8)
+  - XCGLogger (~> 7.0)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AlamofireNetworkActivityIndicator
+    - Cache
+    - FTLinearActivityIndicator
+    - Kingfisher
+    - KMNavigationBarTransition
+    - Loaf
+    - ObjcExceptionBridging
+    - ReachabilitySwift
+    - Swinject
+    - XCGLogger
+
+SPEC CHECKSUMS:
+  Alamofire: eec6cd8f73b242b59e34153a606a909eb9864b14
+  AlamofireNetworkActivityIndicator: 6564782bd7b9e6c430ae67d9277af01907b01ca4
+  Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
+  FTLinearActivityIndicator: 516afec1c54e348b42eabc8ba64534933a9db518
+  Kingfisher: beeaf65ed57dfa710d416aea4093277e8a9b1968
+  KMNavigationBarTransition: f622e909e51f7308fb5b9aa38cceaa9e7c374e9c
+  Loaf: d69937cd00649f3fa260beb8b7aef0a1feb861ef
+  ObjcExceptionBridging: d3d37d62981bb7f252ecb31b62d7e23a96bbfb8a
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+  Swinject: a827d508c6270da03ec74e558e728917a888fa9b
+  XCGLogger: 399c5885210b4e2ad79d9f7a29b105d672ef724f
+
+PODFILE CHECKSUM: 8884c0403aa07253a63a20ef56eb01da0e5a8394
+
+COCOAPODS: 1.16.2

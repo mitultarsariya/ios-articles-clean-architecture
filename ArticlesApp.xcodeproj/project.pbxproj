@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		78E6721497C59B7848E1225E /* Pods_ArticlesApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF8C4952D0712B9CD2EE3FF /* Pods_ArticlesApp.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		1DF8C4952D0712B9CD2EE3FF /* Pods_ArticlesApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ArticlesApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		212A72479C1875A86FC7BFD1 /* Pods-ArticlesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArticlesApp.release.xcconfig"; path = "Target Support Files/Pods-ArticlesApp/Pods-ArticlesApp.release.xcconfig"; sourceTree = "<group>"; };
+		40E50FCC7A3BCF040647E9E5 /* Pods-ArticlesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ArticlesApp.debug.xcconfig"; path = "Target Support Files/Pods-ArticlesApp/Pods-ArticlesApp.debug.xcconfig"; sourceTree = "<group>"; };
 		865BBFA42F5AAD740003BB87 /* ArticlesApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArticlesApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -14,7 +21,7 @@
 		865BBFB62F5AAD750003BB87 /* Exceptions for "ArticlesApp" folder in "ArticlesApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				SupportingFiles/Info.plist,
 			);
 			target = 865BBFA32F5AAD740003BB87 /* ArticlesApp */;
 		};
@@ -36,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78E6721497C59B7848E1225E /* Pods_ArticlesApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +55,8 @@
 			children = (
 				865BBFA62F5AAD740003BB87 /* ArticlesApp */,
 				865BBFA52F5AAD740003BB87 /* Products */,
+				C8DE16919A7AD2EAC96D2CB5 /* Pods */,
+				9F6C9EAB223DA4C500660925 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +68,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9F6C9EAB223DA4C500660925 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF8C4952D0712B9CD2EE3FF /* Pods_ArticlesApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C8DE16919A7AD2EAC96D2CB5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				40E50FCC7A3BCF040647E9E5 /* Pods-ArticlesApp.debug.xcconfig */,
+				212A72479C1875A86FC7BFD1 /* Pods-ArticlesApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -65,9 +93,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 865BBFB72F5AAD750003BB87 /* Build configuration list for PBXNativeTarget "ArticlesApp" */;
 			buildPhases = (
+				CCDE2B86DFE5630D0A55D9D4 /* [CP] Check Pods Manifest.lock */,
 				865BBFA02F5AAD740003BB87 /* Sources */,
 				865BBFA12F5AAD740003BB87 /* Frameworks */,
 				865BBFA22F5AAD740003BB87 /* Resources */,
+				C45EFF8CE51F0576D7077686 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -77,8 +107,6 @@
 				865BBFA62F5AAD740003BB87 /* ArticlesApp */,
 			);
 			name = ArticlesApp;
-			packageProductDependencies = (
-			);
 			productName = ArticlesApp;
 			productReference = 865BBFA42F5AAD740003BB87 /* ArticlesApp.app */;
 			productType = "com.apple.product-type.application";
@@ -127,6 +155,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C45EFF8CE51F0576D7077686 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ArticlesApp/Pods-ArticlesApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ArticlesApp/Pods-ArticlesApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ArticlesApp/Pods-ArticlesApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCDE2B86DFE5630D0A55D9D4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ArticlesApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		865BBFA02F5AAD740003BB87 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -140,6 +210,7 @@
 /* Begin XCBuildConfiguration section */
 		865BBFB82F5AAD750003BB87 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40E50FCC7A3BCF040647E9E5 /* Pods-ArticlesApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -150,8 +221,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -171,6 +242,7 @@
 		};
 		865BBFB92F5AAD750003BB87 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 212A72479C1875A86FC7BFD1 /* Pods-ArticlesApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -181,8 +253,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
